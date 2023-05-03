@@ -32,7 +32,7 @@ class segmentTree{
     
     void update(int ind, int x, int i, int low, int high){
         if(low==high){
-            seg[i]=arr[i]=x;
+            seg[ind]=arr[i]=x;
             return;
         }
             
