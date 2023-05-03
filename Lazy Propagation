@@ -1,0 +1,83 @@
+class segmentTree{
+    public :
+    vector<int> seg,lazy;
+    
+    segmentTree(int n){
+        seg=vector<int>(4*n);
+        lazy=vector<int>(4*n);
+    }
+    
+    void build(int ind, int low, int high){
+        if(low==high){
+            seg[ind]=arr[low];
+            return;
+        }
+        
+        int mid=(low+high)>>1;
+        build(2*ind+1,low,mid);
+        build(2*ind+2,mid+1,high);
+        
+        seg[ind]=seg[2*ind+1]+seg[2*ind+2];
+    }
+    
+    int query(int ind, int low, int high, int l, int r){
+        // update lazy nodes
+        if(lazy[ind]!=0){
+            seg[ind]+=(high-low+1)*lazy[ind];
+            
+            if(low!=high){
+                lazy[2*ind+1]=lazy[ind];
+                lazy[2*ind+2]=lazy[ind];
+            }
+            
+            lazy[ind]=0;
+        }
+        
+        
+        if(r<low || l>high)
+            return 0;
+        if(l>=low && high<=r)
+            return seg[ind];
+            
+        int mid=(low+high)>>1;
+        int left=query(2*ind+1,low,mid,l,r);
+        int right=query(2*ind+2,mid+1,high,l,r);
+        
+        return left+right;
+    }
+    
+    void update(int ind, int low, int high, int l, int r, int val){
+        // update previous remaining updates and propogate downwards
+        if(lazy[ind]!=0){
+            seg[ind]+=(high-low+1)*lazy[ind];
+            // propogate downwards
+            if(low!=high){
+                lazy[2*ind+1]+=lazy[ind];
+                lazy[2*ind+2]+=lazy[ind];
+            }
+            lazy[ind]=0; 
+        }
+        
+        // no overlap -> Just Return
+        if(r<low || l>high)
+            return;
+            
+        // complete overlap
+        if(low>=l && high<=r){
+            seg[ind]+=(high-low+1)*val;
+            // propogate downwards
+            if(low!=high){
+                lazy[2*ind+1]+=lazy[ind];
+                lazy[2*ind+2]+=lazy[ind];
+            }
+            return;
+        }
+        
+        // partial overlap
+        int mid=(low+high)>>1;
+        update(2*ind+1,low,mid,l,r,val);
+        update(2*ind+2,mid+1,high,l,r,val);
+        
+        seg[ind]=seg[2*ind+1]+seg[2*ind+2];
+    }
+};
