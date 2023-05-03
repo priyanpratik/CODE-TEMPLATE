@@ -1,0 +1,40 @@
+#include <bits/stdc++.h>
+using namespace std;
+vector<int> graph[10000];
+vector<int> start,term,flat;
+
+void dfs(int u, int p, int &timer){
+    start[u]=timer;
+    flat[timer]=u;
+    timer++;
+    
+    for(int v : graph[u]){
+        if(v!=p)
+            dfs(v,u,timer);
+    }
+    
+    term[u]=timer;
+}
+
+int main() {
+    int n,a,b;  cin >> n;
+    
+    for(int i=1;i<n;i++){
+        cin >> a >> b;
+        graph[a].push_back(b);
+        graph[b].push_back(a);
+    }
+    start=vector<int>(n+1);
+    term=vector<int>(n+1);
+    flat=vector<int>(n+1);
+    int timer=1;
+    
+    dfs(1,-1, timer);
+    
+    for(int i=1;i<=n;i++)   cout << start[i] << " ";
+    cout << endl;
+    for(int i=1;i<=n;i++)   cout << term[i] << " ";
+    cout << endl;
+    for(int i=1;i<=n;i++)   cout << flat[i] << " ";
+    cout << endl;
+}
