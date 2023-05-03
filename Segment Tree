@@ -1,0 +1,49 @@
+// Code for range sum query
+
+class segmentTree{
+    public : 
+    void build(int ind, int low, int high){
+        if(low==high){
+            seg[ind]=arr[low];
+            return;
+        }
+        
+        int mid=(low+high)/2;
+        build(2*ind,low,mid);
+        build(2*ind+1,mid+1,high);
+        
+        seg[ind]=seg[2*ind]+seg[2*ind+1];
+    }
+    
+    int query(int ind,int l, int r, int low, int high){
+        if(r<low || l>high)
+            return 0;
+            
+        if(low>=l && high<=r)
+            return seg[ind];
+            
+        int mid=(low+high)/2;
+        
+        int left=query(2*ind,l,r,low,mid);
+        int right=query(2*ind+1,l,r,mid+1,high);
+        
+        return left+right;
+    }
+    
+    void update(int ind, int x, int i, int low, int high){
+        if(low==high){
+            seg[i]=arr[i]=x;
+            return;
+        }
+            
+        
+        int mid=(low+high)/2;
+        
+        if(i<=mid)
+            update(2*ind,x,i,low,mid);
+        else
+            update(2*ind+1,x,i,mid+1,high);
+            
+        seg[ind]=seg[2*ind]+seg[2*ind+1];
+    }
+};
