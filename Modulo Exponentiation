@@ -1,0 +1,19 @@
+# define ll long long
+# define mod 1000000007
+
+ll power(ll base, ll p){
+    ll res=1;
+
+    while(p>0){
+        if(p%2==0){
+            base=((base%mod)*(base%mod))%mod;
+            p/=2;
+        }
+        else{
+            res=((res%mod)*(base%mod))%mod;
+            p--;
+        }
+    }
+
+    return res;
+}
