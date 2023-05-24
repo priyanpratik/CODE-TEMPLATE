@@ -1,0 +1,21 @@
+# define ll long long
+# define mod 1000000007
+
+ll power(ll base, ll p){
+    ll res=1;
+
+    while(p){
+        if(p&1)    
+            res=((res%mod)*(base%mod))%mod;
+        p>>=1;
+        base=((base%mod)*(base%mod))%mod;
+    }
+    return res;
+}
+
+/*
+For Modulo Inverse
+ll modInverse(ll n, ll mod){
+    return power(n,mod-2);
+}
+*/
