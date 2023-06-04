@@ -13,8 +13,8 @@ int compare(string &a, string &b){
     else if(n1<n2)      {  return 2;  }
     else{
         for(int i = 0; i < n1; ++i){
-            ll num1=(a[i]-'0');
-            ll num2=(b[i]-'0');
+            int num1=(a[i]-'0');
+            int num2=(b[i]-'0');
             if(num1>num2){
                 return 1;
             }
