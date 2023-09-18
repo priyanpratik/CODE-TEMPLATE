@@ -1,0 +1,38 @@
+// Josephus Problem II
+
+// ordered set for order_of_key and find_by_order.
+// order_of_key: The number of items in a set that are strictly smaller than k
+// The find_by_order() function accepts a key, say K, as an argument and returns the iterator to the Kth (starting from zero) element in the Set.
+
+#include <ext/pb_ds/assoc_container.hpp>
+#include <ext/pb_ds/tree_policy.hpp>
+using namespace __gnu_pbds;
+template<class T> using ordered_set =tree<T, null_type, less<T>, rb_tree_tag,tree_order_statistics_node_update> ;
+
+void solve(){
+    ll n,k;      cin >> n;          cin >> k;
+    ordered_set<ll> st;
+    for(int i=1;i<=n;i++)      st.insert(i);
+    
+    ll ind=k%n;
+    
+    while(st.size()){
+        auto it=st.find_by_order(ind);
+        cout << *it << " ";
+        st.erase(it);
+        if(st.size())
+            ind=(ind+k)%st.size();
+    }
+    
+}
+
+int main(){
+	fast_io;
+	int t=1;
+// 	cin >> t;
+	while(t--){
+		solve();
+	}
+
+	return 0;
+}
