@@ -1,0 +1,51 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+void merge(vector<int> &arr, int low, int mid, int high){
+    int size1=mid-low+1;
+    int size2=high-mid;
+    
+    vector<int> left;
+    vector<int> right;
+    
+    for(int i=low; i<=mid; i++)
+        left.push_back(arr[i]);
+        
+    for(int i=mid+1; i<=high; i++)
+        right.push_back(arr[i]);
+        
+    
+    int l=0, r=0, k=low;
+    
+    while(l<size1 && r<size2){
+        if(left[l]<right[r])
+            arr[k++]=left[l++];
+        else
+            arr[k++]=right[r++];
+    }
+    
+    while(l<size1)
+        arr[k++]=left[l++];
+    
+    while(r<size2)
+        arr[k++]=right[r++];
+}
+
+void mergeSort(vector<int> &arr, int l, int r){
+    if(l>=r)
+        return;
+        
+    int mid=(l+r)/2;
+    mergeSort(arr, l ,mid);
+    mergeSort(arr, mid+1, r);
+    merge(arr, l, mid, r);
+}
+
+int main() {
+    vector<int> arr={5,3,2,4,1};
+    mergeSort(arr, 0, arr.size()-1);
+    for(int i=0; i<arr.size(); i++){
+        cout << arr[i] << " ";
+    }
+    cout << endl;
+}
